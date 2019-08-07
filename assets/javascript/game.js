@@ -2,66 +2,85 @@
 //function Game() {
 
 
-    function Character(fullName, portraitLink, health, AP, CAP) {
-        //initial values to set upon character creation
-        this.name = fullName;
-        this.HP = health;
-        this.attackPower = AP;
-        this.counterAttackPower = CAP;
-        this.isPlayer = false;
-        this.link = portraitLink;
+function Character(fullName, portraitLink, health, AP, CAP) {
+    //initial values to set upon character creation
+    this.name = fullName;
+    this.HP = health;
+    this.attackPower = AP;
+    this.counterAttackPower = CAP;
+    this.isPlayer = false;
+    this.link = portraitLink;
 
-        //takes portraitLink and makes an element from it
+    //takes portraitLink and makes an element from it
 
-        //-------------------------ASIDE-----------------------
-        //taking portraitLink in from the constructor might be a silly way of doing this
-        //I want each object to have an element property for sake of clarity when referencing it later on in the code
-        //assigning a new element in the document to the element property here makes sense, if nothing else for the sake of being robust
-        //appending that node to an element in the document makes less sense, since many more of those operations will be taking place in the code
-        //if i wanted to be perfectly consistent I would declare a function for initializing the "character-select" element
-        //I think I've made that argument the clear winning here, so that's what I'll do!
-        //-----------------------END ASIDE---------------------
+    //-------------------------ASIDE-----------------------
+    //taking portraitLink in from the constructor might be a silly way of doing this
+    //I want each object to have an element property for sake of clarity when referencing it later on in the code
+    //assigning a new element in the document to the element property here makes sense, if nothing else for the sake of being robust
+    //appending that node to an element in the document makes less sense, since many more of those operations will be taking place in the code
+    //if i wanted to be perfectly consistent I would declare a function for initializing the "character-select" element
+    //I think I've made that argument the clear winning here, so that's what I'll do!
+    //-----------------------END ASIDE---------------------
 
-        //initialization of character html elements
-        this.charDivEl =    document.createElement("div"); 
-        this.charImg =      document.createElement("img");
-        this.nameEl =       document.createElement("h3");
-        this.HPEl =         document.createElement("h3");
-
-
-        this.characterSelectInit = function(){
-            //finds character-select div and 
-            const node = document.getElementById("character-select")
-            console.log(node);
-
-            //associate 
-            
-            this.charDivEl.setAttribute("class", "character");
-
-            //dont need a name id for each element because they will be properties of each object
-            // this.charDivEl.setAttribute("id", this.name);
+    //initialization of character html elements
+    this.charDivEl = document.createElement("div");
+    this.imgEl = document.createElement("img");
+    this.nameEl = document.createElement("h3");
+    this.HPEl = document.createElement("h3");
 
 
-            console.log(this.charDivEl);
+
+    this.charDivEl.setAttribute("class", "character");
+    //assigns file source to image element
+    this.imgEl.setAttribute("src", this.link);
+
+    //initializes text content of nameEl and HPEl with initial values
+    this.nameEl.textContent = this.name;
+    this.HPEl.textContent = this.HP;
+
+    //append image, hp, and name to charDivEl
+    this.charDivEl.appendChild(this.nameEl);
+    this.charDivEl.appendChild(this.imgEl);
+    this.charDivEl.appendChild(this.HPEl);
+
+    //appends charDivEl to character-select div
+    const node = document.getElementById("character-select")
+
+    node.appendChild(this.charDivEl);
+
+    this.characterSelectInit = function () {
+        //finds character-select div for future reference
+
+        console.log(node);
+
+        //associate the character class with its div
 
 
-            this.charDivEl.image.setAttribute("src", this.link);
 
-            node.appendChild(this.charDivEl);
-        
-        }
+        //dont need a name id for each element because they will be properties of each object
+        // this.charDivEl.setAttribute("id", this.name);
 
-        this.
+
+        console.log(this.charDivEl);
+
+
+
+        // this.charDivEl.appendChild(this.nameEl);
+        // this.charDivEl.appendChild(this.imgEl);
+        // this.charDivEl.appendChild(this.HPEl);
+
+    }
+
 
 
         //-------methods for fighting other characters-------
         //universal check function for death
-        this.deathCheck = function(isPlayer){
-            if(this.HP <= 0){
-                if(isPlayer){
+        this.deathCheck = function (isPlayer) {
+            if (this.HP <= 0) {
+                if (isPlayer) {
                     //logic for ending the game
                 }
-                else{
+                else {
                     //logic for killing the NPC (Should potentially put that code elsewhere)
                     //hides NPC's charDivEl when it is killed
                     this.charDivEl.style.display = "none";
@@ -71,41 +90,43 @@
             return false;
         }
 
-        //method for player characters
-        if (this.isPlayer) {
-            //will take in a .defend method for its target
-            this.attack = function (target) {
-                this.HP -= target.defend(this.attackPower);
-                //check for player death
-                this.deathCheck();
-                //increments player attack power
-                this.attackPower += 6;
-                
-
-            }
-        }
+    //method for player characters
+    if (this.isPlayer) {
+        //will take in a .defend method for its target
+        this.attack = function (target) {
+            this.HP -= target.defend(this.attackPower);
+            //check for player death
+            this.deathCheck();
+            //increments player attack power
+            this.attackPower += 6;
+            this.HPEl = this.HP;
 
 
-        //method for NPC's
-        else {
-            // takes in a attack value from player character and applies it to HP
-            // returns a counterattack value for .attack method
-            // should never be called outside of the object here, so it will be defined as a variable
-            this.defend = function (incomingDamage) {
-
-                //decrements appropriate amount of health
-                this.HP -= incomingDamage;
-                //check for NPC death
-                this.deathCheck();
-            }
         }
     }
 
-    function makeEnemy(character){
-        
-    }
 
-        //constructor for all characters
+    //method for NPC's
+    else {
+        // takes in a attack value from player character and applies it to HP
+        // returns a counterattack value for .attack method
+        // should never be called outside of the object here, so it will be defined as a variable
+        this.defend = function (incomingDamage) {
+
+            //decrements appropriate amount of health
+            this.HP -= incomingDamage;
+            //check for NPC death
+            this.deathCheck();
+            this.HPEl = this.HP;
+        }
+    }
+}
+
+function makeEnemy(character) {
+
+}
+
+//constructor for all characters
 
 const characters = [];      //array containing all character objects
 
@@ -129,7 +150,10 @@ characters.push(nalan);
 //used in gameover, win functions and restart button
 
 
-characters.forEach(characterSelectInit);
+for (let i = 0; i < characters.length; i++) {
+    characters[i].characterSelectInit();
+    
+}
 
 
 //foreach character in the characters array:
