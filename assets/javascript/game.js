@@ -22,8 +22,36 @@
         //I think I've made that argument the clear winning here, so that's what I'll do!
         //-----------------------END ASIDE---------------------
 
+        //initialization of character html elements
+        this.charDivEl =    document.createElement("div"); 
+        this.charImg =      document.createElement("img");
+        this.nameEl =       document.createElement("h3");
+        this.HPEl =         document.createElement("h3");
+
+
+        this.characterSelectInit = function(){
+            //finds character-select div and 
+            const node = document.getElementById("character-select")
+            console.log(node);
+
+            //associate 
+            
+            this.charDivEl.setAttribute("class", "character");
+
+            //dont need a name id for each element because they will be properties of each object
+            // this.charDivEl.setAttribute("id", this.name);
+
+
+            console.log(this.charDivEl);
+
+
+            this.charDivEl.image.setAttribute("src", this.link);
+
+            node.appendChild(this.charDivEl);
         
-        this.element = document.createElement("img"); 
+        }
+
+        this.
 
 
         //-------methods for fighting other characters-------
@@ -35,8 +63,8 @@
                 }
                 else{
                     //logic for killing the NPC (Should potentially put that code elsewhere)
-                    //hides NPC's element when it is killed
-                    this.element.style.display = "none";
+                    //hides NPC's charDivEl when it is killed
+                    this.charDivEl.style.display = "none";
                 }
                 return true;
             }
@@ -78,15 +106,7 @@
     }
 
         //constructor for all characters
-function characterSelectInit(character){
-    const node = document.getElementById("character-select")
-    console.log(node);
-    character.element.setAttribute("src", character.link);
-    character.element.setAttribute("id", "character-portrait");
-    console.log(character.element);
-    node.appendChild(character.element);
 
-}
 const characters = [];      //array containing all character objects
 
 let isPlaying = false;
