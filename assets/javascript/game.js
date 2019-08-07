@@ -104,6 +104,7 @@ function makeEnemy(character) {
 //constructor for all characters
 
 const characters = [];      //array containing all character objects
+let playerCharacter = null;
 
 let isPlaying = false;
 
@@ -125,7 +126,41 @@ characters.push(nalan);
 //used in gameover, win functions and restart button
 
 
+//handler function so we can remove the even listener associated with each particular event
+//this moves the divs to their appropriate places after a player character is selected
+function playerPickHandler(character){
+    //reassigns the clicked characterDiv to the player-character div
+    const playerDiv = document.getElementById("player-character");
+    playerDiv.appendChild(character.charDivEl);
 
+
+    playerCharacter = character;
+    playerCharacter.isPlayer = true;
+    // character.charDivEl.removeEventListener("click", playerPickHandler);
+    
+    //setting the NPCs to the enemies div and removing their listeners
+    for (let i = 0; i < characters.length; i++) {
+        if (!characters[i].isPlayer) {
+            //changes the div
+            const enemyDiv = document.getElementById("enemies")
+            enemyDiv.appendChild(characters[i].charDivEl);
+
+            //removes the listener
+            characters[i].charDivEl.removeEventListener("click", playerPickHandler);
+        }
+        
+        
+    }
+    console.log(character)
+
+}
+
+
+characters.forEach(character => {
+    character.imgEl.addEventListener("click", function(){
+        playerPickHandler(character);
+    });
+});
 
 
 //foreach character in the characters array:
