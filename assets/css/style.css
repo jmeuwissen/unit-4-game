@@ -1,3 +1,7 @@
+.character-select{
+    float: left;
+}
+
 .character{
     width: 200px;
     float: left;
@@ -12,3 +16,7 @@
     text-align: center;
 
   }
+
+#player-character{
+    clear: both;
+}
