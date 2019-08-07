@@ -32,3 +32,8 @@
 #defender{
     clear: both;
 }
+
+h1{
+    margin: 10px;
+    size: 36px;
+}
