@@ -97,6 +97,51 @@ function Character(fullName, portraitLink, health, AP, CAP) {
     }
 }
 
+let defenderCharacter = null;
+
+//handler function so we can remove the even listener associated with each particular event
+//this moves the divs to their appropriate places after a player character is selected
+
+function playerPickHandler(character){
+    //reassigns the clicked characterDiv to the player-character div
+    const playerDiv = document.getElementById("player-character");
+    playerDiv.appendChild(character.charDivEl);
+
+
+    playerCharacter = character;
+    playerCharacter.isPlayer = true;
+    // character            
+            const old_element = character.imgEl;
+            const new_element = old_element.cloneNode(true);
+            old_element.parentNode.replaceChild(new_element, old_element);
+    
+    //setting the NPCs to the enemies div and removing their listeners
+    //also gives them a new listener for selecting a fighter
+    for (let i = 0; i < characters.length; i++) {
+        if (!characters[i].isPlayer) {
+            //changes the div
+            const enemyDiv = document.getElementById("enemies")
+            enemyDiv.appendChild(characters[i].charDivEl);
+
+            //removes the old listener
+            //found on stackoveflow https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+            const old_element = characters[i].imgEl;
+            const new_element = old_element.cloneNode(true);
+            old_element.parentNode.replaceChild(new_element, old_element);
+
+            //giving a new listener for fighter selection
+            //reassigns their div to defender div
+            //assigns their character object to the "defender" variable
+            // characters[i].charDivEl.addEventListener("click")
+
+        }
+        
+        
+    }
+    console.log(character)
+
+}
+
 function makeEnemy(character) {
 
 }
@@ -108,7 +153,7 @@ let playerCharacter = null;
 
 let isPlaying = false;
 
-
+//initializing each character and pushing it into the character array
 const figrin = new Character("Figrin D'an", "./assets/images/FigrinDan_CT.png", 130, 10, 15);
 characters.push(figrin);
 
@@ -126,36 +171,9 @@ characters.push(nalan);
 //used in gameover, win functions and restart button
 
 
-//handler function so we can remove the even listener associated with each particular event
-//this moves the divs to their appropriate places after a player character is selected
-function playerPickHandler(character){
-    //reassigns the clicked characterDiv to the player-character div
-    const playerDiv = document.getElementById("player-character");
-    playerDiv.appendChild(character.charDivEl);
 
 
-    playerCharacter = character;
-    playerCharacter.isPlayer = true;
-    // character.charDivEl.removeEventListener("click", playerPickHandler);
-    
-    //setting the NPCs to the enemies div and removing their listeners
-    for (let i = 0; i < characters.length; i++) {
-        if (!characters[i].isPlayer) {
-            //changes the div
-            const enemyDiv = document.getElementById("enemies")
-            enemyDiv.appendChild(characters[i].charDivEl);
-
-            //removes the listener
-            characters[i].charDivEl.removeEventListener("click", playerPickHandler);
-        }
-        
-        
-    }
-    console.log(character)
-
-}
-
-
+//applying a listener to each character's image, with a listener handler defined above
 characters.forEach(character => {
     character.imgEl.addEventListener("click", function(){
         playerPickHandler(character);
@@ -163,8 +181,3 @@ characters.forEach(character => {
 });
 
 
-//foreach character in the characters array:
-//  give that character's element an event click listener 
-//      listener will be for initial player character selection
-
-//}
