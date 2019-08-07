@@ -48,31 +48,6 @@ function Character(fullName, portraitLink, health, AP, CAP) {
 
     node.appendChild(this.charDivEl);
 
-    this.characterSelectInit = function () {
-        //finds character-select div for future reference
-
-        console.log(node);
-
-        //associate the character class with its div
-
-
-
-        //dont need a name id for each element because they will be properties of each object
-        // this.charDivEl.setAttribute("id", this.name);
-
-
-        console.log(this.charDivEl);
-
-
-
-        // this.charDivEl.appendChild(this.nameEl);
-        // this.charDivEl.appendChild(this.imgEl);
-        // this.charDivEl.appendChild(this.HPEl);
-
-    }
-
-
-
         //-------methods for fighting other characters-------
         //universal check function for death
         this.deathCheck = function (isPlayer) {
@@ -150,10 +125,7 @@ characters.push(nalan);
 //used in gameover, win functions and restart button
 
 
-for (let i = 0; i < characters.length; i++) {
-    characters[i].characterSelectInit();
-    
-}
+
 
 
 //foreach character in the characters array:
