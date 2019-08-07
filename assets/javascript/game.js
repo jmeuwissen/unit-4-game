@@ -1,18 +1,29 @@
-window.onload{
 
-}
 //function Game() {
-    //constructor for all characters
+
+
     function Character(fullName, portraitLink, health, AP, CAP) {
         //initial values to set upon character creation
         this.name = fullName;
-        this.link = portraitLink;
         this.HP = health;
         this.attackPower = AP;
         this.counterAttackPower = CAP;
         this.isPlayer = false;
+        this.link = portraitLink;
 
+        //takes portraitLink and makes an element from it
 
+        //-------------------------ASIDE-----------------------
+        //taking portraitLink in from the constructor might be a silly way of doing this
+        //I want each object to have an element property for sake of clarity when referencing it later on in the code
+        //assigning a new element in the document to the element property here makes sense, if nothing else for the sake of being robust
+        //appending that node to an element in the document makes less sense, since many more of those operations will be taking place in the code
+        //if i wanted to be perfectly consistent I would declare a function for initializing the "character-select" element
+        //I think I've made that argument the clear winning here, so that's what I'll do!
+        //-----------------------END ASIDE---------------------
+
+        
+        this.element = document.createElement("img"); 
 
 
         //-------methods for fighting other characters-------
@@ -24,6 +35,8 @@ window.onload{
                 }
                 else{
                     //logic for killing the NPC (Should potentially put that code elsewhere)
+                    //hides NPC's element when it is killed
+                    this.element.style.display = "none";
                 }
                 return true;
             }
@@ -59,19 +72,48 @@ window.onload{
             }
         }
     }
-const characters = [];
 
-const figrin = new Character("Figrin D'an", "../images/FigrinDan_CT.png", 130, 10, 15);
+    function makeEnemy(character){
+        
+    }
+
+        //constructor for all characters
+function characterSelectInit(character){
+    const node = document.getElementById("character-select")
+    console.log(node);
+    character.element.setAttribute("src", character.link);
+    character.element.setAttribute("id", "character-portrait");
+    console.log(character.element);
+    node.appendChild(character.element);
+
+}
+const characters = [];      //array containing all character objects
+
+let isPlaying = false;
+
+
+const figrin = new Character("Figrin D'an", "./assets/images/FigrinDan_CT.png", 130, 10, 15);
 characters.push(figrin);
 
-const ickabel = new Character("Ickabel G'ont", "../images/Ickabel_G'ont_canon.png", 130, 10, 15);
+const ickabel = new Character("Ickabel G'ont", "./assets/images/Ickabel_G'ont_canon.png", 130, 10, 15);
 characters.push(ickabel);
 
-const lirin = new Character("Lirin Car'n", "../images/Lirin-carn.jpg", 130, 10, 15);
+const lirin = new Character("Lirin Car'n", "./assets/images/Lirin-carn.jpg", 130, 10, 15);
 characters.push(lirin);
 
-const nalan = new Character("Nalan Cheel", "../images/Nalan_Cheel-SW_Card_Trader.png", 130, 10, 15);
+const nalan = new Character("Nalan Cheel", "./assets/images/Nalan_Cheel-SW_Card_Trader.png", 130, 10, 15);
 characters.push(nalan);
 
+
+//resets game to initial playable state
+//used in gameover, win functions and restart button
+
+
+characters.forEach(characterSelectInit);
+
+
+//foreach character in the characters array:
+//  give that character's element an event click listener 
+//      listener will be for initial player character selection
 
 //}
